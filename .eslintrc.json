@@ -1,0 +1,26 @@
+{
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "plugin:vue/vue3-recommended",
+    "@nuxtjs/eslint-config-typescript",
+    "plugin:json/recommended-with-comments",
+    "plugin:markdown/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "overrides": [
+    {
+      "files": ["*.vue"],
+      "parser": "vue-eslint-parser",
+      "parserOptions": {
+        "parser": "@typescript-eslint/parser"
+      },
+      "rules": {
+        "no-unused-vars": "off",
+        "no-indef": "off",
+        "@typescript-eslint/no-unused-vars": "off"
+      }
+    }
+  ]
+}

@@ -4,9 +4,19 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview"
+    "preview": "nuxt preview",
+    "lint": "eslint . --ext .vue,.js,.json,.md,.ts,.vue ."
   },
   "devDependencies": {
-    "nuxt": "3.0.0-rc.8"
+    "@nuxtjs/eslint-config-typescript": "^10.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.35.1",
+    "@typescript-eslint/parser": "^5.35.1",
+    "eslint": "^8.23.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-json": "^3.1.0",
+    "eslint-plugin-markdown": "^3.0.0",
+    "eslint-plugin-vue": "^9.4.0",
+    "nuxt": "3.0.0-rc.8",
+    "vue-eslint-parser": "^9.0.3"
   }
 }
