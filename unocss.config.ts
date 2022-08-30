@@ -9,6 +9,8 @@ import {
   transformerVariantGroup,
 } from 'unocss'
 
+import { dashboardSidebarIcons } from './data/dashboardSidebarMenu'
+
 export default defineConfig({
   presets: [
     presetUno(),
@@ -30,4 +32,5 @@ export default defineConfig({
     }),
   ],
   transformers: [transformerDirectives(), transformerVariantGroup()],
+  safelist: [...dashboardSidebarIcons],
 })

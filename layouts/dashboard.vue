@@ -1,0 +1,31 @@
+<script setup lang="ts">
+  import { breakpointsTailwind } from '@vueuse/core'
+
+  import { useDashboardSidebarStore } from '@/store/dashboardSidebar'
+
+  const { md } = useBreakpoints(breakpointsTailwind)
+  const sidebar = useDashboardSidebarStore()
+</script>
+
+<template>
+  <div display="flex" h="full" w="full" overflow="x-hidden">
+    <div class="fixed top-0 left-0 -z-10 h-screen w-screen overflow-hidden">
+      <div
+        class="absolute top-0 left-0 h-screen w-screen overflow-hidden bg-slate-50"
+      />
+    </div>
+
+    <DashboardSidebar />
+
+    <div
+      class="flex flex-col h-full w-full transition duration-300"
+      :class="md && sidebar.isShow && 'ml-70'"
+    >
+      <DashboardHeader />
+
+      <div class="p-5 flex-1">
+        <NuxtPage />
+      </div>
+    </div>
+  </div>
+</template>

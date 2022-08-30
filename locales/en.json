@@ -1,0 +1,20 @@
+{
+  "dashboard": {
+    "menu": {
+      "dashboard": "Dashboard",
+      "media": "Media",
+      "settings": "Settings",
+      "settings-general": "General",
+      "settings-profile": "Profile",
+      "users": "Users"
+    },
+    "title": {
+      "dashboard": "Dashboard",
+      "media": "Media",
+      "settings": "Settings",
+      "settings-general": "General Settings",
+      "settings-profile": "Profile Settings",
+      "users": "Users"
+    }
+  }
+}

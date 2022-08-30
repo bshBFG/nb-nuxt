@@ -1,0 +1,20 @@
+{
+  "dashboard": {
+    "menu": {
+      "dashboard": "Панель управления",
+      "users": "Пользователи",
+      "media": "Медиа",
+      "settings": "Настройки",
+      "settings-general": "Общие",
+      "settings-profile": "Профиль"
+    },
+    "title": {
+      "dashboard": "Панель управления",
+      "users": "Пользователи",
+      "media": "Медиа",
+      "settings": "Настройки",
+      "settings-general": "Общие настройки",
+      "settings-profile": "Настройки профиля"
+    }
+  }
+}
