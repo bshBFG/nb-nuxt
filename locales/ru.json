@@ -15,6 +15,16 @@
       "settings": "Настройки",
       "settings-general": "Общие настройки",
       "settings-profile": "Настройки профиля"
+    },
+    "button": {
+      "addUser": "Добавить"
+    },
+    "usersTable": {
+      "totalUsers": "Всего",
+      "profile": "Профиль",
+      "role": "Роль",
+      "verified": "Верифицирован",
+      "status": "Статус"
     }
   }
 }

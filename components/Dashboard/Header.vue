@@ -30,7 +30,7 @@
       </button>
 
       <button>
-        <DashboardHeaderAvatar class="h-10 w-10" />
+        <DashboardAvatar class="h-10 w-10" />
       </button>
     </div>
   </header>

@@ -15,6 +15,16 @@
       "settings-general": "General Settings",
       "settings-profile": "Profile Settings",
       "users": "Users"
+    },
+    "button": {
+      "addUser": "Add User"
+    },
+    "usersTable": {
+      "profile": "Profile",
+      "role": "Role",
+      "status": "Status",
+      "totalUsers": "All Users",
+      "verified": "Verified"
     }
   }
 }
