@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import { breakpointsTailwind } from '@vueuse/core'
 
-  import SidebarOverlay from './SidebarOverlay.vue'
   import { useDashboardSidebarStore } from '@/store/dashboardSidebar'
 
   const { md } = useBreakpoints(breakpointsTailwind)
@@ -9,7 +8,7 @@
 
   const sidebar = useDashboardSidebarStore()
 
-  onBeforeMount(() => {
+  onMounted(() => {
     md.value ? sidebar.show() : sidebar.hide()
   })
 

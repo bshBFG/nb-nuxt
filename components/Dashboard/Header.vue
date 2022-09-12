@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { useDashboardSidebarStore } from '@/store/dashboardSidebar'
+
   const sidebar = useDashboardSidebarStore()
 </script>
 
