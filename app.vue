@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { IUser } from '~~/types/user.interface'
+
   useHead({
     title: null,
     meta: [{ name: 'description', content: 'Niobium template based on Nuxt' }],
@@ -9,6 +11,8 @@
       class: 'font-sans',
     },
   })
+
+  await useUser()
 </script>
 
 <template>

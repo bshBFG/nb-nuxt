@@ -2,6 +2,13 @@
   import { useDashboardSidebarStore } from '@/store/dashboardSidebar'
 
   const sidebar = useDashboardSidebarStore()
+  const logout = logoutUser
+
+  const user = await useUser()
+  let userAvatar = null
+  if (user && user.profile && user.profile.avatar) {
+    userAvatar = user.profile.avatar
+  }
 </script>
 
 <template>
@@ -20,6 +27,13 @@
 
       <button
         class="grid place-items-center h-10 w-10 rounded-full transition duration-300 hover:(bg-slate-100)"
+        @click="logout"
+      >
+        <div class="i-tabler-logout h-5 w-5 text-slate-500" />
+      </button>
+
+      <button
+        class="grid place-items-center h-10 w-10 rounded-full transition duration-300 hover:(bg-slate-100)"
       >
         <div class="i-tabler-settings h-5 w-5 text-slate-500" />
       </button>
@@ -31,7 +45,7 @@
       </button>
 
       <button>
-        <DashboardAvatar class="h-10 w-10" />
+        <DashboardAvatar class="h-10 w-10" :src="userAvatar" />
       </button>
     </div>
   </header>
