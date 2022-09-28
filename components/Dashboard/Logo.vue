@@ -36,12 +36,12 @@
           y2="200"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#1DE6BC" />
-          <stop offset="1" stop-color="#1DCBDF" />
+          <stop stop-color="#818cf8" />
+          <stop offset="1" stop-color="#6366f1" />
         </linearGradient>
       </defs>
     </svg>
-    <div v-if="props.withText" class="ml-2 text-2xl text-slate-800">
+    <div v-if="props.withText" class="ml-3 text-2xl font-bold text-indigo-500">
       Niobium
     </div>
   </div>

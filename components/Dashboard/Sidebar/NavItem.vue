@@ -1,4 +1,9 @@
 <script setup lang="ts">
+  import {
+    Disclosure,
+    DisclosureButton,
+    DisclosurePanel,
+  } from '@headlessui/vue'
   import type { IMenuItem } from '@/data/dashboardSidebarMenu'
 
   export interface Props {
@@ -9,100 +14,69 @@
 
   const route = useRoute()
 
-  const isItemPathInRoute = computed(() => route.path.includes(props.item.url))
-  const isChildMenuOpen = ref(isItemPathInRoute.value)
-  const isChildMenuActive = computed(() => isChildMenuOpen.value)
+  const isItemPathInRoute = computed(() => {
+    if (props.item.url === '/dashboard' || props.item.url === '/dashboard/') {
+      return route.path === '/dashboard' || route.path === '/dashboard/'
+    }
 
-  const toggleChildMenu = () => {
-    isChildMenuOpen.value = !isChildMenuOpen.value
-  }
+    return route.path.includes(props.item.url)
+  })
 </script>
 
 <template>
-  <NuxtLink v-slot="{ href, navigate, isActive }" :to="item.url" custom>
-    <a
-      v-if="!item.children"
-      :href="href"
-      class="mb-1 h-12 px-4 flex items-center rounded-lg text-sm transition duration-300 z-10"
-      :class="
-        isActive ? 'bg-blue-50 text-blue-500 font-semibold' : 'text-slate-500'
-      "
-      hover="bg-blue-50"
-      @click="navigate"
+  <NuxtLink
+    v-if="!item.children"
+    :to="item.url"
+    class="h-11 px-4 flex items-center rounded-md text-sm z-10 transition-padding duration-300"
+    :class="
+      isItemPathInRoute
+        ? 'bg-gradient-to-r from-indigo-500 to-indigo-400 text-white shadow-md shadow-indigo z-20'
+        : 'text-slate-600'
+    "
+    hover="bg-indigo-50 pl-6"
+  >
+    <span class="mr-4"><div class="h-5 w-5" :class="item.icon" /></span>
+    <span>{{ $t(`dashboard.menu.${item.title}`) }}</span>
+  </NuxtLink>
+
+  <Disclosure v-else v-slot="{ open }" :default-open="isItemPathInRoute">
+    <DisclosureButton
+      class="h-11 px-4 flex items-center rounded-md text-sm 'text-slate-600' z-10 transition-padding duration-300"
+      :class="open && 'bg-indigo-50'"
+      hover="bg-indigo-50 pl-6"
     >
       <span class="mr-4"><div class="h-5 w-5" :class="item.icon" /></span>
       <span>{{ $t(`dashboard.menu.${item.title}`) }}</span>
-    </a>
+      <span class="ml-auto"
+        ><div
+          class="i-tabler-chevron-right h-4 w-4"
+          :class="open && 'rotate-90'"
+      /></span>
+    </DisclosureButton>
 
-    <template v-else>
-      <div
-        class="mb-1 h-12 px-4 flex items-center rounded-lg text-sm transition duration-300 cursor-pointer select-none z-10"
-        :class="
-          isChildMenuActive
-            ? 'bg-blue-50 text-blue-500 font-semibold'
-            : 'text-slate-500'
-        "
-        hover="bg-blue-50"
-        @click="toggleChildMenu"
-      >
-        <span class="mr-4"><div class="h-5 w-5" :class="item.icon" /></span>
-        <span>{{ $t(`dashboard.menu.${item.title}`) }}</span>
-        <span class="ml-auto">
-          <div
-            class="i-tabler-chevron-right h-4 w-4"
-            :class="isChildMenuActive ? 'rotate-90' : 'rotate-0'"
-          />
-        </span>
-      </div>
-
-      <Transition>
-        <div
-          v-if="isChildMenuActive"
-          class="relative flex flex-col text-slate-500 z-0 overflow-hidden)"
+    <Transition
+      enter-active-class="transition duration-100 ease-out"
+      enter-from-class="transform scale-95 opacity-0"
+      enter-to-class="transform scale-100 opacity-100"
+      leave-active-class="transition duration-75 ease-out"
+      leave-from-class="transform scale-100 opacity-100"
+      leave-to-class="transform scale-95 opacity-0"
+    >
+      <DisclosurePanel>
+        <NuxtLink
+          v-for="child in item.children"
+          :key="child.url"
+          :to="child.url"
+          class="h-11 pl-5 pr-4 flex items-center rounded-md text-sm z-10 transition-padding duration-300"
+          active-class="bg-gradient-to-r from-indigo-500 to-indigo-400 text-white shadow-md shadow-indigo"
+          hover="bg-indigo-50 pl-6"
         >
-          <NuxtLink
-            v-for="child in item.children"
-            :key="child.url"
-            v-slot="{ isActive: isChildActive }"
-            :to="child.url"
-            class="mb-1 h-10 pl-4 flex items-center rounded-lg text-sm"
-            hover="bg-blue-50"
-            active-class="text-blue-400"
-          >
-            <span class="h-5 w-5 mr-4 grid place-items-center">
-              <div
-                class="h-1 w-1 rounded-full transition duration-300"
-                :class="
-                  isChildActive ? 'scale-200 bg-blue-500' : 'bg-slate-500'
-                "
-              />
-            </span>
-            <span
-              :class="
-                isActive ? 'text-slate-700 font-semibold' : 'text-slate-500'
-              "
-              >{{ $t(`dashboard.menu.${item.title}-${child.title}`) }}</span
-            >
-          </NuxtLink>
-        </div>
-      </Transition>
-    </template>
-  </NuxtLink>
+          <span class="mr-4"><div class="i-tabler-circle h-3 w-3" /></span>
+          <span>{{ $t(`dashboard.menu.${child.title}`) }}</span>
+        </NuxtLink>
+      </DisclosurePanel>
+    </Transition>
+  </Disclosure>
 </template>
 
-<style scoped>
-  .v-enter-active,
-  .v-leave-active {
-    transition: all 0.3s ease;
-  }
-
-  .v-enter-from,
-  .v-leave-to {
-    opacity: 0;
-  }
-
-  .v-enter-to,
-  .v-leave-from {
-    opacity: 1;
-  }
-</style>
+<style scoped></style>

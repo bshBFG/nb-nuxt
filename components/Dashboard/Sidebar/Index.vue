@@ -3,26 +3,26 @@
 
   import { useDashboardSidebarStore } from '@/store/dashboardSidebar'
 
-  const { md } = useBreakpoints(breakpointsTailwind)
+  const { lg } = useBreakpoints(breakpointsTailwind)
   const route = useRoute()
 
   const sidebar = useDashboardSidebarStore()
 
   onMounted(() => {
-    md.value ? sidebar.show() : sidebar.hide()
+    lg.value ? sidebar.show() : sidebar.hide()
   })
 
   watch(
-    () => md.value,
+    () => lg.value,
     () => {
-      !md.value ? sidebar.hide() : sidebar.show()
+      !lg.value ? sidebar.hide() : sidebar.show()
     }
   )
 
   watch(
     () => route.path,
     () => {
-      if (!md.value) {
+      if (!lg.value) {
         sidebar.hide()
       }
     }
@@ -49,7 +49,7 @@
 
     <Teleport to="body">
       <DashboardSidebarOverlay
-        :is-show="sidebar.isShow && !md"
+        :is-show="sidebar.isShow && !lg"
         @click="sidebar.hide"
       />
     </Teleport>

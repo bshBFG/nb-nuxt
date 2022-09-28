@@ -1,4 +1,4 @@
-import type { User, UserWithProfile } from '@/server/modules/user'
+import type { User } from '@/server/modules/user'
 import type { ILoginRequest, ISignupRequest } from '@/server/modules/auth'
 import type { IFormError, IRequestError } from '@/server/types'
 
@@ -6,14 +6,14 @@ export const useSessionCookie = () => useCookie('session_token')
 
 export async function useUser() {
   const authCookie = useSessionCookie().value
-  const user = useState<UserWithProfile>('user')
+  const user = useState<User>('user')
 
   if (authCookie && !user.value) {
-    const { data } = await useFetch<UserWithProfile>(`/api/auth/user`, {
+    const data = await $fetch<User>(`/api/auth/user`, {
       headers: useRequestHeaders(['cookie']),
     })
 
-    user.value = data.value
+    user.value = data
   }
 
   return user.value

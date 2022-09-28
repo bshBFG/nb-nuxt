@@ -6,7 +6,10 @@
       "settings": "Settings",
       "settings-general": "General",
       "settings-profile": "Profile",
-      "users": "Users"
+      "users": "Users",
+      "general": "General",
+      "help": "Help",
+      "profile": "Profile"
     },
     "title": {
       "dashboard": "Dashboard",
@@ -17,14 +20,19 @@
       "users": "Users"
     },
     "button": {
-      "addUser": "Add User"
+      "addUser": "Add User",
+      "delete": "Delete",
+      "edit": "Edit"
     },
     "usersTable": {
       "profile": "Profile",
       "role": "Role",
       "status": "Status",
       "totalUsers": "All Users",
-      "verified": "Verified"
+      "verified": "Verified",
+      "email": "Email",
+      "user": "User",
+      "username": "Username"
     }
   }
 }

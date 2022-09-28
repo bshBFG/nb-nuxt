@@ -2,17 +2,10 @@
   import { useDashboardSidebarStore } from '@/store/dashboardSidebar'
 
   const sidebar = useDashboardSidebarStore()
-  const logout = logoutUser
-
-  const user = await useUser()
-  let userAvatar = null
-  if (user && user.profile && user.profile.avatar) {
-    userAvatar = user.profile.avatar
-  }
 </script>
 
 <template>
-  <header class="w-full h-16 p-4 md:(h-25 p-6)">
+  <header class="h-16 m-6 p-4 bg-white shadow-xl rounded-md md:(h-18)">
     <div class="h-full w-full flex justify-self-end items-center gap-2">
       <button
         class="grid place-items-center h-10 w-10 mr-auto rounded-full transition duration-300 hover:(bg-slate-100)"
@@ -27,13 +20,6 @@
 
       <button
         class="grid place-items-center h-10 w-10 rounded-full transition duration-300 hover:(bg-slate-100)"
-        @click="logout"
-      >
-        <div class="i-tabler-logout h-5 w-5 text-slate-500" />
-      </button>
-
-      <button
-        class="grid place-items-center h-10 w-10 rounded-full transition duration-300 hover:(bg-slate-100)"
       >
         <div class="i-tabler-settings h-5 w-5 text-slate-500" />
       </button>
@@ -44,9 +30,7 @@
         <div class="i-tabler-bell h-5 w-5 text-slate-500" />
       </button>
 
-      <button>
-        <DashboardAvatar class="h-10 w-10" :src="userAvatar" />
-      </button>
+      <DashboardHeaderUserMenu />
     </div>
   </header>
 </template>

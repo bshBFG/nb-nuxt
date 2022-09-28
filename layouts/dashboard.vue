@@ -8,7 +8,7 @@
 </script>
 
 <template>
-  <div display="flex" h="full" w="full" overflow="x-hidden">
+  <div class="flex h-full min-h-screen w-full overflow-x-hidden">
     <div class="fixed top-0 left-0 -z-10 h-screen w-screen overflow-hidden">
       <div
         class="absolute top-0 left-0 h-screen w-screen overflow-hidden bg-slate-50"
@@ -18,12 +18,13 @@
     <DashboardSidebar />
 
     <div
-      class="flex flex-col h-full w-full transition duration-300"
-      :class="md && sidebar.isShow && 'ml-70'"
+      class="flex flex-col h-full"
+      :class="md && sidebar.isShow ? 'ml-70 w-[calc(100%-17.5rem)]' : 'w-full'"
     >
       <DashboardHeader />
 
-      <div class="p-5 flex-1">
+      <div class="p-5 flex flex-auto">
+        <NuxtLoadingIndicator />
         <NuxtPage />
       </div>
     </div>

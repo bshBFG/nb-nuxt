@@ -1,4 +1,8 @@
 <script setup lang="ts">
+  definePageMeta({
+    middleware: ['guest'],
+  })
+
   const login = ref('')
   const password = ref('')
   const loginError = ref(null)

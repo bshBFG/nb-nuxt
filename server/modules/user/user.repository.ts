@@ -1,8 +1,16 @@
-import type { User, Profile, Prisma } from '@prisma/client'
+import type { User, Role } from '@prisma/client'
 
 import prisma from '@/server/prisma/client'
 
-export { User, Profile }
+export { User, Role }
+
+export const getUser = async (id: string) => {
+  const user = await prisma.user.findUnique({
+    where: { id },
+  })
+
+  return user
+}
 
 export const getUserWithAuthByUsername = async (username: string) => {
   return await prisma.user.findUnique({
@@ -53,19 +61,6 @@ export const getUserByLogin = async (
   })
 }
 
-export const getUserWithProfileByLogin = async (
-  login: User['username'] | User['email']
-) => {
-  return await prisma.user.findFirst({
-    where: {
-      OR: [{ username: login }, { email: login }],
-    },
-    include: {
-      profile: true,
-    },
-  })
-}
-
 export const createUser = async (
   username: string,
   email: string,
@@ -80,15 +75,14 @@ export const createUser = async (
           passwordHash,
         },
       },
-      profile: {
-        create: {},
-      },
     },
   })
 
   return user
 }
 
-export type UserWithProfile = Prisma.PromiseReturnType<
-  typeof getUserWithProfileByLogin
->
+export const getAllUsers = async () => {
+  const users = await prisma.user.findMany({})
+
+  return users
+}

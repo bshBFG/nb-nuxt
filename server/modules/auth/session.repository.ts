@@ -49,7 +49,7 @@ export const getUserBySessionToken = async (
         AND: [{ sessionToken }, { expires: { gt: new Date() } }],
       },
     })
-    .user({ include: { profile: true } })
+    .user()
 
   return user
 }

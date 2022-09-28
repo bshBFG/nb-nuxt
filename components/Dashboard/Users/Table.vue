@@ -1,51 +1,19 @@
 <script setup lang="ts">
-  interface User {
-    id: string
-    firstName: string
-    lastName: string
-    email: string
-    role: string
-    verified: boolean
-    status: string
+  import { User } from '@/server/modules/user'
+
+  interface Props {
+    users: User[]
   }
 
-  const users: User[] = [
-    {
-      id: 'a1',
-      firstName: 'Jon',
-      lastName: 'Snow',
-      email: 'jon@snow.got',
-      role: 'admin',
-      verified: true,
-      status: 'active',
-    },
-    {
-      id: 'a2',
-      firstName: 'Obi-Wan',
-      lastName: 'Kenobi',
-      email: 'obi-wan@kenobi.sw',
-      role: 'user',
-      verified: false,
-      status: 'active',
-    },
-    {
-      id: 'a3',
-      firstName: 'Hacker',
-      lastName: 'Man',
-      email: 'hacker@man.pro',
-      role: 'user',
-      verified: true,
-      status: 'banned',
-    },
-  ]
+  defineProps<Props>()
 </script>
 
 <template>
-  <div class="min-w-full overflow-hidden overflow-x-auto">
-    <table class="w-full">
+  <div class="w-full overflow-hidden overflow-x-auto">
+    <table class="min-w-full">
       <thead class="bg-slate-50 border-y border-slate-200">
         <tr>
-          <th class="p-4 font-semibold text-left">
+          <th class="px-4 font-semibold text-left">
             <div class="flex">
               <button
                 class="w-10 h-10 grid place-items-center rounded-full transition duration-300 hover:bg-slate-100"
@@ -58,13 +26,13 @@
             {{ $t('dashboard.usersTable.profile') }}
           </th>
           <th class="p-4 text-sm font-semibold text-slate-600 text-center">
+            {{ $t('dashboard.usersTable.username') }}
+          </th>
+          <th class="p-4 text-sm font-semibold text-slate-600 text-center">
+            {{ $t('dashboard.usersTable.email') }}
+          </th>
+          <th class="p-4 text-sm font-semibold text-slate-600 text-center">
             {{ $t('dashboard.usersTable.role') }}
-          </th>
-          <th class="p-4 text-sm font-semibold text-slate-600 text-center">
-            {{ $t('dashboard.usersTable.verified') }}
-          </th>
-          <th class="p-4 text-sm font-semibold text-slate-600 text-center">
-            {{ $t('dashboard.usersTable.status') }}
           </th>
           <th class="p-4 text-sm font-semibold text-slate-600 text-left"></th>
         </tr>
@@ -83,27 +51,26 @@
             </button>
           </td>
           <td class="p-4">
-            <div class="flex items-center">
-              <div class="h-10 w-10"><DashboardAvatar class="h-10 w-10" /></div>
-              <div class="ml-4 flex flex-col">
-                <div class="font-semibold text-slate-700">
-                  {{ user.firstName }} {{ user.lastName }}
+            <NuxtLink :to="`/dashboard/users/${user.id}`">
+              <div class="flex items-center">
+                <div class="h-10 w-10">
+                  <DashboardAvatar class="h-10 w-10" :src="user.avatar" />
                 </div>
-                <div class="text-sm text-slate-600">{{ user.email }}</div>
+                <div class="ml-4 flex flex-col">
+                  <div class="font-semibold text-slate-700">
+                    {{ formatUserFullName(user) }}
+                  </div>
+                </div>
               </div>
-            </div>
+            </NuxtLink>
           </td>
-          <td class="p-4 text-slate-600 text-center">{{ user.role }}</td>
-          <td class="p-4 text-slate-600 text-center">
+          <td class="p-4 text-slate-600 text-center">{{ user.username }}</td>
+          <td class="p-4 text-slate-600 text-center">{{ user.email }}</td>
+          <td class="p-4 text-slate-600">
             <div class="flex items-center justify-center">
-              <div
-                v-if="user.verified"
-                class="i-tabler-circle-check h-5 w-5 text-green-500"
-              />
-              <div v-else class="i-tabler-clock h-5 w-5 text-yellow-500" />
+              <DashboardUsersTableRole :role="user.role" />
             </div>
           </td>
-          <td class="p-4 text-slate-600 text-center">{{ user.status }}</td>
           <td class="p-4 text-slate-600">
             <div class="flex items-center justify-center gap-2">
               <button

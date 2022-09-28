@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col font-medium text-slate-600">
     <DashboardSidebarNavItem
       v-for="item in menu"
       :key="item.url"
