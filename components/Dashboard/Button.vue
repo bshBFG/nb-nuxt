@@ -18,24 +18,25 @@
     type: 'contained',
   })
 
-  const defaultClass = 'flex items-center rounded-md font-medium duration-300'
+  const defaultClass =
+    'w-max min-w-20 flex items-center justify-center rounded-md font-medium duration-300 text-sm'
   const small = 'h-8 px-2'
   const medium = 'h-9 px-3'
   const large = 'h-10 px-4'
 
   const primary =
-    'text-white bg-indigo-500 hover:bg-indigo-400 hover:shadow-md hover-shadow-indigo'
+    'text-white bg-indigo-500 hover:bg-indigo-400 hover:shadow-lg hover-shadow-indigo/70'
   const success =
-    'text-white bg-green-500 hover:bg-green-400 hover:shadow-md hover-shadow-green'
+    'text-white bg-green-500 hover:bg-green-400 hover:shadow-lg hover-shadow-green/70'
   const danger =
-    'text-white bg-red-500 hover:bg-red-400 hover:shadow-md hover-shadow-red'
+    'text-white bg-red-500 hover:bg-red-400 hover:shadow-lg hover-shadow-red/70'
 
   const outlinePrimary =
-    'border border-blue-500 text-blue-500 bg-transparent hover:text-white hover:border-blue-400 hover:bg-blue-400 hover:shadow-md hover-shadow-blue'
+    'border border-indigo-500 text-indigo-500 bg-transparent hover:text-white hover:border-indigo-400 hover:bg-indigo-400 hover:shadow-lg hover-shadow-indigo/70'
   const outlineSuccess =
-    'border border-green-500 text-green-500 bg-transparent hover:text-white hover:border-green-400 hover:bg-green-400 hover:shadow-md hover-shadow-green'
+    'border border-green-500 text-green-500 bg-transparent hover:text-white hover:border-green-400 hover:bg-green-400 hover:shadow-lg hover-shadow-green/70'
   const outlineDanger =
-    'border border-red-500 text-red-500 bg-transparent hover:text-white hover:border-red-400 hover:bg-red-400 hover:shadow-md hover-shadow-red'
+    'border border-red-500 text-red-500 bg-transparent hover:text-white hover:border-red-400 hover:bg-red-400 hover:shadow-lg hover-shadow-red/70'
 
   const finalClass = computed(() => {
     let mixClass = defaultClass

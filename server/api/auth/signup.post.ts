@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
 
   const passwordHash: string = await hash(password, 10)
 
-  const user = await createUser(username, email, passwordHash)
+  const user = await createUser({ username, email, passwordHash })
 
   return await makeSession(user, event)
 })

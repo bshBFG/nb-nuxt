@@ -6,6 +6,8 @@
   }
 
   defineProps<Props>()
+
+  defineEmits(['onDeleted'])
 </script>
 
 <template>
@@ -24,9 +26,6 @@
           </th>
           <th class="p-4 text-sm font-semibold text-slate-600 text-left">
             {{ $t('dashboard.usersTable.profile') }}
-          </th>
-          <th class="p-4 text-sm font-semibold text-slate-600 text-center">
-            {{ $t('dashboard.usersTable.username') }}
           </th>
           <th class="p-4 text-sm font-semibold text-slate-600 text-center">
             {{ $t('dashboard.usersTable.email') }}
@@ -60,11 +59,11 @@
                   <div class="font-semibold text-slate-700">
                     {{ formatUserFullName(user) }}
                   </div>
+                  <div class="text-sm text-slate-500">@{{ user.username }}</div>
                 </div>
               </div>
             </NuxtLink>
           </td>
-          <td class="p-4 text-slate-600 text-center">{{ user.username }}</td>
           <td class="p-4 text-slate-600 text-center">{{ user.email }}</td>
           <td class="p-4 text-slate-600">
             <div class="flex items-center justify-center">
@@ -73,16 +72,16 @@
           </td>
           <td class="p-4 text-slate-600">
             <div class="flex items-center justify-center gap-2">
-              <button
-                class="w-10 h-10 grid place-items-center rounded-full transition duration-300 hover:bg-slate-100"
-              >
-                <div class="i-tabler-trash h-5 w-5 text-slate-500" />
-              </button>
-              <button
+              <DashboardUsersTableDelete
+                :user="user"
+                @on-deleted="$emit('onDeleted')"
+              />
+              <NuxtLink
+                :to="`/dashboard/users/${user.id}/edit`"
                 class="w-10 h-10 grid place-items-center rounded-full transition duration-300 hover:bg-slate-100"
               >
                 <div class="i-tabler-edit h-5 w-5 text-slate-500" />
-              </button>
+              </NuxtLink>
             </div>
           </td>
         </tr>

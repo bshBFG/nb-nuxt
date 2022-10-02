@@ -13,6 +13,8 @@
     icon: null,
   })
 
+  defineEmits(['update:modelValue'])
+
   const isSecureValue = ref(props.type === 'password')
 
   const toggleValueSecure = () => {
@@ -26,8 +28,6 @@
 
     return isSecureValue.value ? 'password' : 'text'
   })
-
-  defineEmits(['update:modelValue'])
 
   const handleInput = (event: Event) => (event.target as HTMLInputElement).value
 </script>
@@ -46,9 +46,12 @@
         class="w-full h-full text-lg text-sm outline-none"
         @input="$emit('update:modelValue', handleInput($event))"
       />
-      <button type="button" @click="toggleValueSecure">
+      <button
+        v-if="type === 'password'"
+        type="button"
+        @click="toggleValueSecure"
+      >
         <div
-          v-if="type === 'password'"
           class="h-4 w-4 mr-2 text-slate-500"
           :class="isSecureValue ? 'i-tabler-eye-off' : 'i-tabler-eye'"
         />

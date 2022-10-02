@@ -1,7 +1,9 @@
 <script setup lang="ts">
-  import { User } from '@prisma/client'
+  const { data: users, refresh, pending } = await getUsers()
 
-  const { data: users, refresh: refreshUsers } = useFetch<User[]>('/api/users')
+  const refreshUsers = () => {
+    setTimeout(async () => await refresh(), 300)
+  }
 </script>
 
 <template>
@@ -17,18 +19,15 @@
       </div>
 
       <div class="flex items-center space-x-2">
-        <button
-          class="grid place-items-center h-10 w-10 rounded-full transition duration-300 hover:(bg-slate-100)"
+        <DashboardButtonIcon
+          icon="i-tabler-refresh"
+          :pending="pending"
           @click="refreshUsers()"
-        >
-          <div class="i-tabler-refresh h-5 w-5 text-slate-500" />
-        </button>
+        />
 
-        <DashboardButton to="/dashboard/users/new">{{
-          $t('dashboard.button.addUser')
-        }}</DashboardButton>
+        <DashboardUsersAdd @on-added="refreshUsers" />
       </div>
     </div>
-    <DashboardUsersTable :users="users ?? []" />
+    <DashboardUsersTable :users="users ?? []" @on-deleted="refreshUsers" />
   </div>
 </template>

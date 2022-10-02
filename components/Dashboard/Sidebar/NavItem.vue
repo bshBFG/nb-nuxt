@@ -30,7 +30,7 @@
     class="h-11 px-4 flex items-center rounded-md text-sm z-10 transition-padding duration-300"
     :class="
       isItemPathInRoute
-        ? 'bg-gradient-to-r from-indigo-500 to-indigo-400 text-white shadow-md shadow-indigo z-20'
+        ? 'bg-gradient-to-r from-indigo-500 to-indigo-400 text-white shadow-lg shadow-indigo/70 z-20'
         : 'text-slate-600'
     "
     hover="bg-indigo-50 pl-6"
@@ -68,7 +68,7 @@
           :key="child.url"
           :to="child.url"
           class="h-11 pl-5 pr-4 flex items-center rounded-md text-sm z-10 transition-padding duration-300"
-          active-class="bg-gradient-to-r from-indigo-500 to-indigo-400 text-white shadow-md shadow-indigo"
+          active-class="bg-gradient-to-r from-indigo-500 to-indigo-400 text-white shadow-lg shadow-indigo/70"
           hover="bg-indigo-50 pl-6"
         >
           <span class="mr-4"><div class="i-tabler-circle h-3 w-3" /></span>
@@ -79,4 +79,8 @@
   </Disclosure>
 </template>
 
-<style scoped></style>
+<style scoped>
+  .glowing {
+    box-shadow: 0 0 10px 1px rgb(115 103 240 / 70%);
+  }
+</style>

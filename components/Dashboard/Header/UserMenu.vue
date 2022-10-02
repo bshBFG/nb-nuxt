@@ -1,8 +1,6 @@
 <script setup lang="ts">
   import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
 
-  import { User } from '@/server/modules/user'
-
   const user = await useUser()
   const logout = logoutUser
 

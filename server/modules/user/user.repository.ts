@@ -61,15 +61,36 @@ export const getUserByLogin = async (
   })
 }
 
-export const createUser = async (
-  username: string,
-  email: string,
+interface ICreateUser {
+  username: string
+  email: string
   passwordHash: string
-) => {
+  role?: Role
+  firstName?: string
+  middleName?: string
+  lastName?: string
+  avatar?: string
+}
+
+export const createUser = async ({
+  username,
+  email,
+  passwordHash,
+  role,
+  firstName,
+  middleName,
+  lastName,
+  avatar,
+}: ICreateUser) => {
   const user = await prisma.user.create({
     data: {
       username,
       email,
+      role,
+      firstName,
+      middleName,
+      lastName,
+      avatar,
       auth: {
         create: {
           passwordHash,
@@ -79,6 +100,14 @@ export const createUser = async (
   })
 
   return user
+}
+
+export const deleteUser = async (id: string) => {
+  return await prisma.user.delete({
+    where: {
+      id,
+    },
+  })
 }
 
 export const getAllUsers = async () => {

@@ -30,30 +30,28 @@
 </script>
 
 <template>
-  <ClientOnly>
-    <transition>
-      <div
-        v-if="sidebar.isShow"
-        class="fixed top-0 left-0 h-full w-70 z-20 flex flex-col bg-white shadow-xl"
-      >
-        <div class="p-6">
-          <DashboardLogo :with-text="true" />
-        </div>
-        <div class="flex-auto">
-          <div class="p-4">
-            <DashboardSidebarNav />
-          </div>
+  <transition>
+    <div
+      v-if="sidebar.isShow"
+      class="fixed top-0 left-0 h-full w-70 z-20 flex flex-col bg-white shadow-xl"
+    >
+      <div class="p-6">
+        <DashboardLogo :with-text="true" />
+      </div>
+      <div class="flex-auto">
+        <div class="p-4">
+          <DashboardSidebarNav />
         </div>
       </div>
-    </transition>
+    </div>
+  </transition>
 
-    <Teleport to="body">
-      <DashboardSidebarOverlay
-        :is-show="sidebar.isShow && !lg"
-        @click="sidebar.hide"
-      />
-    </Teleport>
-  </ClientOnly>
+  <Teleport to="body">
+    <DashboardSidebarOverlay
+      :is-show="sidebar.isShow && !lg"
+      @click="sidebar.hide"
+    />
+  </Teleport>
 </template>
 
 <style scoped>
