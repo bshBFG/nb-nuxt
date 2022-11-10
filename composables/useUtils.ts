@@ -1,4 +1,4 @@
-import { User } from '@/server/modules/user'
+import { User } from '@prisma/client'
 
 export const formatUserFullName = (
   user: User,

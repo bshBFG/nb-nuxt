@@ -23,7 +23,7 @@
     >
       <DashboardHeader />
 
-      <div class="p-5 flex flex-auto">
+      <div class="mx-6 flex flex-auto">
         <NuxtLoadingIndicator />
         <NuxtPage />
       </div>

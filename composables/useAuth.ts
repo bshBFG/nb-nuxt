@@ -1,16 +1,23 @@
-import type { User } from '@/server/modules/user'
-import type { ILoginRequest, ISignupRequest } from '@/server/modules/auth'
-import type { IFormError, IRequestError } from '@/server/types'
+import { User } from '@prisma/client'
+
+import type {
+  IFormParseError,
+  ILoginRequest,
+  IRequestError,
+  ISignupRequest,
+} from '~~/server/types'
+
+const AUTH_URL = '/api/auth'
 
 export const useSessionCookie = () => useCookie('session_token')
 
-export async function useUser() {
+export const useUser = async () => {
   const authCookie = useSessionCookie().value
   const user = useState<User>('user')
 
   if (authCookie && !user.value) {
-    const data = await $fetch<User>(`/api/auth/user`, {
-      headers: useRequestHeaders(['cookie']),
+    const data = await $fetch<User>(`${AUTH_URL}/user`, {
+      headers: useRequestHeaders(['cookie']) as HeadersInit, // TODO: invalid type https://github.com/nuxt/framework/issues/7549
     })
 
     user.value = data
@@ -20,24 +27,24 @@ export async function useUser() {
 }
 
 export async function logoutUser() {
-  await useFetch('/api/auth/logout')
+  await useFetch(`${AUTH_URL}/logout`)
   useState('user').value = null
   await useRouter().push('/')
 }
 
 interface IErrorSignup {
-  data: IRequestError<IFormError<ISignupRequest>>
+  data: IRequestError<IFormParseError<ISignupRequest>>
 }
 
-export const signupUser = async (
+export async function signupUser(
   username: string,
   email: string,
   password: string,
   confirmPassword: string
-) => {
+): Promise<IFormParseError<ISignupRequest> | null> {
   try {
     const { data, error } = await useFetch<User, IErrorSignup>(
-      '/api/auth/signup',
+      `${AUTH_URL}/signup`,
       {
         method: 'POST',
         body: { username, email, password, confirmPassword },
@@ -46,10 +53,6 @@ export const signupUser = async (
     )
 
     if (error.value) {
-      if (typeof error.value === 'boolean') {
-        return { hasErrors: true, data: {} }
-      }
-
       return error.value.data.data
     }
 
@@ -57,19 +60,25 @@ export const signupUser = async (
       useState('user').value = data.value
       await useRouter().push('/dashboard')
     }
+
+    return null
   } catch (e) {
-    console.log('error: ' + e.toString())
+    if (e instanceof Error) {
+      console.log('error: ' + e.toString())
+    }
+
+    return null
   }
 }
 
 interface IErrorLogin {
-  data: IRequestError<IFormError<ILoginRequest>>
+  data: IRequestError<IFormParseError<ILoginRequest>>
 }
 
 export const loginUser = async (login: string, password: string) => {
   try {
     const { data, error } = await useFetch<User, IErrorLogin>(
-      '/api/auth/login',
+      `${AUTH_URL}/login`,
       {
         method: 'POST',
         body: { login, password },
@@ -78,10 +87,6 @@ export const loginUser = async (login: string, password: string) => {
     )
 
     if (error.value) {
-      if (typeof error.value === 'boolean') {
-        return { hasErrors: true, data: {} }
-      }
-
       return error.value.data.data
     }
 
@@ -89,7 +94,13 @@ export const loginUser = async (login: string, password: string) => {
       useState('user').value = data.value
       await useRouter().push('/dashboard')
     }
+
+    return null
   } catch (e) {
-    console.log('error: ' + e.toString())
+    if (e instanceof Error) {
+      console.log('error: ' + e.toString())
+    }
+
+    return null
   }
 }

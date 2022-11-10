@@ -6,7 +6,7 @@
 </script>
 
 <template>
-  <DashboardBody :title="$t('dashboard.title.users')">
+  <DashboardBody title="Пользователи">
     <DashboardUsers />
   </DashboardBody>
 </template>

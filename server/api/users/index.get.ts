@@ -1,6 +1,6 @@
-import { getAllUsers } from '@/server/modules/user'
+import { getAllUsers } from '~~/server/prisma/repositories'
 
-export default defineHandler(() => {
+export default defineEventHandler(() => {
   const users = getAllUsers()
 
   return users

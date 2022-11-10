@@ -6,5 +6,5 @@
 </script>
 
 <template>
-  <DashboardBody :title="$t('dashboard.title.dashboard')"></DashboardBody>
+  <DashboardBody title="Панель управления"></DashboardBody>
 </template>

@@ -1,12 +1,12 @@
 <script setup lang="ts">
+  import { User } from '.prisma/client'
+
   import {
     Dialog,
     DialogPanel,
     TransitionRoot,
     TransitionChild,
   } from '@headlessui/vue'
-
-  import { User } from '@/server/modules/user'
 
   const isOpen = ref(false)
 

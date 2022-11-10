@@ -1,20 +1,17 @@
 <script setup lang="ts">
-  import { User } from '@/server/modules/user'
-
   definePageMeta({
     layout: 'dashboard',
     middleware: ['auth'],
   })
-  const route = useRoute()
-  const id = route.params.id
 
-  const { data: user } = await useFetch<User>(`/api/users/${id}`, {
-    initialCache: false,
-  })
+  const route = useRoute()
+  const id = route.params.id as string
+
+  const { data: user } = await getUser(id)
 </script>
 
 <template>
-  <DashboardBody :title="`Просмотр профиля: ${user.username}`">
+  <DashboardBody v-if="user" :title="`Просмотр профиля: @${user.username}`">
     <div class="w-full flex justify-center">
       <div
         class="w-sm p-5 flex flex-col items-center bg-white shadow-xl rounded-xl"
@@ -44,12 +41,10 @@
         </div>
 
         <div class="p-5 flex space-x-4">
-          <DashboardButton variant="outline-danger">{{
-            $t('dashboard.button.delete')
-          }}</DashboardButton>
-          <DashboardButton :to="`/dashboard/users/${id}/edit`">{{
-            $t('dashboard.button.edit')
-          }}</DashboardButton>
+          <DashboardButton variant="outline-danger">Удалить</DashboardButton>
+          <DashboardButton :to="`/dashboard/users/${id}/edit`"
+            >Редактировать</DashboardButton
+          >
         </div>
       </div>
     </div>

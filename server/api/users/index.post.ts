@@ -1,21 +1,22 @@
 import { hash } from 'bcrypt'
 
-import type { IAddUserRequest } from '@/server/modules/user'
-import { addUserSchema, createUser } from '@/server/modules/user'
-import { postValidate } from '@/server/utils'
+import { createUser } from '~~/server/prisma/repositories'
+import { addUserSchema } from '~~/server/schemes'
+import { IAddUserRequest } from '~~/server/types'
+import { formValidateAsync } from '~~/server/utils'
 
 export default defineEventHandler(async (event) => {
   const body = await useBody<IAddUserRequest>(event)
 
-  const errors = await postValidate(addUserSchema, body)
+  const validBody = await formValidateAsync(addUserSchema, body)
 
-  if (errors.hasErrors) {
+  if (!validBody.success) {
     return sendError(
       event,
       createError({
         statusCode: 401,
         statusMessage: 'Unauthorized',
-        data: errors,
+        data: validBody,
       })
     )
   }
@@ -29,7 +30,7 @@ export default defineEventHandler(async (event) => {
     middleName,
     lastName,
     avatar,
-  } = body
+  } = validBody.data
 
   const passwordHash: string = await hash(password, 10)
 

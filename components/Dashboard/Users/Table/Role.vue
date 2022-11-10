@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { Role } from '@/server/modules/user'
+  import { Role } from '.prisma/client'
 
   interface Props {
     role: Role

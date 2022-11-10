@@ -36,7 +36,7 @@
     hover="bg-indigo-50 pl-6"
   >
     <span class="mr-4"><div class="h-5 w-5" :class="item.icon" /></span>
-    <span>{{ $t(`dashboard.menu.${item.title}`) }}</span>
+    <span>{{ item.title }}</span>
   </NuxtLink>
 
   <Disclosure v-else v-slot="{ open }" :default-open="isItemPathInRoute">
@@ -46,7 +46,7 @@
       hover="bg-indigo-50 pl-6"
     >
       <span class="mr-4"><div class="h-5 w-5" :class="item.icon" /></span>
-      <span>{{ $t(`dashboard.menu.${item.title}`) }}</span>
+      <span>{{ item.title }}</span>
       <span class="ml-auto"
         ><div
           class="i-tabler-chevron-right h-4 w-4"
@@ -72,7 +72,7 @@
           hover="bg-indigo-50 pl-6"
         >
           <span class="mr-4"><div class="i-tabler-circle h-3 w-3" /></span>
-          <span>{{ $t(`dashboard.menu.${child.title}`) }}</span>
+          <span>{{ child.title }}</span>
         </NuxtLink>
       </DisclosurePanel>
     </Transition>

@@ -1,8 +1,34 @@
-import type { IFormError, IRequestError } from '@/server/types'
-import type { IAddUserRequest, User } from '@/server/modules/user'
+import { User } from '@prisma/client'
+
+import {
+  IAddUserRequest,
+  IFormParseError,
+  IRequestError,
+  IUpdateUserPasswordRequest,
+  IUpdateUserRequest,
+} from '~~/server/types'
+
+const USERS_URL = '/api/users'
+
+export const getUsers = async () => {
+  const fetch = await useFetch<User[]>(USERS_URL, {
+    headers: useRequestHeaders(['cookie']) as HeadersInit, // TODO: invalid type https://github.com/nuxt/framework/issues/7549
+    initialCache: false,
+  })
+  return fetch
+}
+
+export const getUser = async (id: string) => {
+  const fetch = await useFetch<User>(`${USERS_URL}/${id}`, {
+    headers: useRequestHeaders(['cookie']) as HeadersInit, // TODO: invalid type https://github.com/nuxt/framework/issues/7549
+    initialCache: false,
+  })
+
+  return fetch
+}
 
 interface IErrorAddUser {
-  data: IRequestError<IFormError<IAddUserRequest>>
+  data: IRequestError<IFormParseError<IAddUserRequest>>
 }
 
 export const addUser = async ({
@@ -17,7 +43,7 @@ export const addUser = async ({
   avatar,
 }: IAddUserRequest) => {
   try {
-    const { data, error } = await useFetch<User, IErrorAddUser>('/api/users', {
+    const { error } = await useFetch<User, IErrorAddUser>(USERS_URL, {
       method: 'POST',
       body: {
         username,
@@ -34,30 +60,105 @@ export const addUser = async ({
     })
 
     if (error.value) {
-      if (typeof error.value === 'boolean') {
-        return { hasErrors: true, data: {} }
-      }
-
       return error.value.data.data
     }
 
-    if (data.value) {
-      return { hasErrors: false, data: {} }
-    }
+    return null
   } catch (e) {
-    console.log('error: ' + e.toString())
+    if (e instanceof Error) {
+      console.log('error: ' + e.toString())
+    }
+
+    return null
+  }
+}
+
+interface IErrorUpdateUser {
+  data: IRequestError<IFormParseError<IUpdateUserRequest>>
+}
+
+export const updateUser = async ({
+  id,
+  username,
+  email,
+  role,
+  firstName,
+  middleName,
+  lastName,
+  avatar,
+}: IUpdateUserRequest) => {
+  try {
+    const { error } = await useFetch<User, IErrorUpdateUser>(
+      `${USERS_URL}/${id}`,
+      {
+        method: 'PUT',
+        body: {
+          id,
+          username,
+          email,
+          role,
+          firstName,
+          middleName,
+          lastName,
+          avatar,
+        },
+        initialCache: false,
+      }
+    )
+
+    if (error.value) {
+      return error.value.data.data
+    }
+
+    return null
+  } catch (e) {
+    if (e instanceof Error) {
+      console.log('error: ' + e.toString())
+    }
+
+    return null
   }
 }
 
 export const deleteUser = async (id: string) => {
-  const fetch = await useFetch(`/api/users/${id}`, {
+  const fetch = await useFetch(`${USERS_URL}/${id}`, {
     method: 'DELETE',
     initialCache: false,
   })
   return fetch
 }
 
-export const getUsers = async () => {
-  const fetch = await useLazyFetch<User[]>('/api/users')
-  return fetch
+interface IErrorUpdateUserPassword {
+  data: IRequestError<IFormParseError<IUpdateUserPasswordRequest>>
+}
+
+export const updateUserPassword = async ({
+  id,
+  password,
+}: IUpdateUserPasswordRequest) => {
+  try {
+    const { error } = await useFetch<User, IErrorUpdateUserPassword>(
+      `${USERS_URL}/${id}/password`,
+      {
+        method: 'PUT',
+        body: {
+          id,
+          password,
+        },
+        initialCache: false,
+      }
+    )
+
+    if (error.value) {
+      return error.value.data.data
+    }
+
+    return null
+  } catch (e) {
+    if (e instanceof Error) {
+      console.log('error: ' + e.toString())
+    }
+
+    return null
+  }
 }

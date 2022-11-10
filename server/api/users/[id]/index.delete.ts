@@ -1,6 +1,6 @@
-import { deleteUser } from '@/server/modules/user'
+import { deleteUser } from '~~/server/prisma/repositories'
 
-export default defineHandler(async (event) => {
+export default defineEventHandler(async (event) => {
   const { id } = getRouterParams(event)
   const user = await deleteUser(id)
 

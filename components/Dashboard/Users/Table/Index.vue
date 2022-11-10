@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { User } from '@/server/modules/user'
+  import { User } from '.prisma/client'
 
   interface Props {
     users: User[]
@@ -25,13 +25,13 @@
             </div>
           </th>
           <th class="p-4 text-sm font-semibold text-slate-600 text-left">
-            {{ $t('dashboard.usersTable.profile') }}
+            Профиль
           </th>
           <th class="p-4 text-sm font-semibold text-slate-600 text-center">
-            {{ $t('dashboard.usersTable.email') }}
+            Email
           </th>
           <th class="p-4 text-sm font-semibold text-slate-600 text-center">
-            {{ $t('dashboard.usersTable.role') }}
+            Роль
           </th>
           <th class="p-4 text-sm font-semibold text-slate-600 text-left"></th>
         </tr>

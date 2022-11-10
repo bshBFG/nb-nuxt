@@ -11,28 +11,28 @@ export interface IMenuItem {
 }
 
 export const sidebarMenu = [
-  { title: 'dashboard', url: '/dashboard', icon: 'i-tabler-dashboard' },
+  { title: 'Панель управления', url: '/dashboard', icon: 'i-tabler-dashboard' },
   {
-    title: 'users',
+    title: 'Пользователи',
     url: '/dashboard/users',
     icon: 'i-tabler-users',
   },
   {
-    title: 'media',
+    title: 'Медиа',
     url: '/dashboard/media',
     icon: 'i-tabler-photo',
   },
   {
-    title: 'settings',
+    title: 'Настройки',
     url: '/dashboard/settings',
     icon: 'i-tabler-settings',
     children: [
       {
-        title: 'general',
+        title: 'Общие',
         url: '/dashboard/settings/general',
       },
       {
-        title: 'profile',
+        title: 'Профиль',
         url: '/dashboard/settings/profile',
       },
     ],

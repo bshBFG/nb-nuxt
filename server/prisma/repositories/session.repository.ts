@@ -2,8 +2,6 @@ import type { Session } from '@prisma/client'
 
 import prisma from '@/server/prisma/client'
 
-export { Session }
-
 export const createSession = async (
   userId: Session['userId'],
   sessionToken: Session['sessionToken'],

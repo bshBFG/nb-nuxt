@@ -6,5 +6,5 @@
 </script>
 
 <template>
-  <DashboardBody :title="$t('dashboard.title.media')"></DashboardBody>
+  <DashboardBody title="Медиа"></DashboardBody>
 </template>

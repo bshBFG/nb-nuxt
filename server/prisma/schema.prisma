@@ -29,11 +29,11 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  auth    Auth?
-  session Session[]
+  password Password?
+  session  Session[]
 }
 
-model Auth {
+model Password {
   passwordHash String
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)

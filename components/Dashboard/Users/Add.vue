@@ -1,4 +1,6 @@
 <script setup lang="ts">
+  import { Role } from '.prisma/client'
+
   import {
     Dialog,
     DialogPanel,
@@ -6,8 +8,6 @@
     TransitionRoot,
     TransitionChild,
   } from '@headlessui/vue'
-
-  import { Role } from '@/server/modules/user'
 
   const emit = defineEmits(['onAdded'])
 
@@ -26,17 +26,17 @@
   const lastName = ref('')
   const avatar = ref('')
   const role = ref<Role>('USER')
-  const usernameError = ref(null)
-  const emailError = ref(null)
-  const passwordError = ref(null)
-  const confirmPasswordError = ref(null)
-  const firstNameError = ref(null)
-  const middleNameError = ref(null)
-  const lastNameError = ref(null)
-  const avatarError = ref(null)
-  const roleError = ref(null)
+  const usernameError = ref<null | string>(null)
+  const emailError = ref<null | string>(null)
+  const passwordError = ref<null | string>(null)
+  const confirmPasswordError = ref<null | string>(null)
+  const firstNameError = ref<null | string>(null)
+  const middleNameError = ref<null | string>(null)
+  const lastNameError = ref<null | string>(null)
+  const avatarError = ref<null | string>(null)
+  const roleError = ref<null | string>(null)
 
-  const postAddUserForm = async () => {
+  const onSubmit = async () => {
     usernameError.value = null
     emailError.value = null
     passwordError.value = null
@@ -47,7 +47,7 @@
     avatarError.value = null
     roleError.value = null
 
-    const errors = await addUser({
+    const fetch = await addUser({
       username: username.value,
       email: email.value,
       password: password.value,
@@ -59,20 +59,20 @@
       avatar: avatar.value,
     })
 
-    if (errors?.hasErrors) {
-      if (errors.data?.username) {
-        usernameError.value = errors.data.username
+    if (fetch) {
+      if (fetch.errors.username) {
+        usernameError.value = fetch.errors.username
       }
 
-      if (errors.data?.email) {
-        emailError.value = errors.data.email
+      if (fetch.errors.email) {
+        emailError.value = fetch.errors.email
       }
 
-      if (errors.data?.password) {
-        passwordError.value = errors.data.password
+      if (fetch.errors.password) {
+        passwordError.value = fetch.errors.password
       }
-      if (errors.data?.confirmPassword) {
-        confirmPasswordError.value = errors.data.confirmPassword
+      if (fetch.errors.confirmPassword) {
+        confirmPasswordError.value = fetch.errors.confirmPassword
       }
     } else {
       clearForm()
@@ -106,9 +106,7 @@
 </script>
 
 <template>
-  <DashboardButton @click="setIsOpen(true)">{{
-    $t('dashboard.button.addUser')
-  }}</DashboardButton>
+  <DashboardButton @click="setIsOpen(true)">Добавить</DashboardButton>
 
   <TransitionRoot appear :show="isOpen" as="template">
     <Dialog as="div" class="relative z-100" @close="setIsOpen">
@@ -141,7 +139,7 @@
               class="h-14 p-6 flex items-center justify-between bg-slate-100"
             >
               <DialogTitle class="font-medium text-slate-600">
-                {{ toCapitalizeAll($t('add-new-user')) }}
+                Добавить
               </DialogTitle>
 
               <DashboardButtonIcon
@@ -154,13 +152,13 @@
               <form
                 autocomplete="off"
                 class="w-full flex flex-col gap-8"
-                @submit.prevent="postAddUserForm"
+                @submit.prevent="onSubmit"
               >
                 <DashboardInput
                   v-model="username"
                   :error="usernameError"
                   type="text"
-                  placeholder="Username"
+                  placeholder="Логин"
                   icon="i-tabler-user"
                 />
 
@@ -176,7 +174,7 @@
                   v-model="password"
                   :error="passwordError"
                   type="password"
-                  placeholder="Password"
+                  placeholder="Пароль"
                   icon="i-tabler-lock"
                 />
 
@@ -184,26 +182,26 @@
                   v-model="confirmPassword"
                   :error="confirmPasswordError"
                   type="password"
-                  placeholder="Confirm Password"
+                  placeholder="Повторите пароль"
                   icon="i-tabler-lock"
                 />
 
                 <DashboardInput
                   v-model="firstName"
                   type="text"
-                  placeholder="First Name"
+                  placeholder="Имя"
                 />
 
                 <DashboardInput
                   v-model="middleName"
                   type="text"
-                  placeholder="Middle Name"
+                  placeholder="Отчество"
                 />
 
                 <DashboardInput
                   v-model="lastName"
                   type="text"
-                  placeholder="Last Name"
+                  placeholder="Фамилия"
                 />
 
                 <div class="w-sm flex items-center gap-4">
@@ -217,7 +215,7 @@
                     <DashboardInput
                       v-model="avatar"
                       type="text"
-                      placeholder="Avatar"
+                      placeholder="Аватар"
                     />
                     <DashboardButton class="mt-4">Выбрать</DashboardButton>
                   </div>

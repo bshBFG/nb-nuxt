@@ -2,8 +2,6 @@ import type { User, Role } from '@prisma/client'
 
 import prisma from '@/server/prisma/client'
 
-export { User, Role }
-
 export const getUser = async (id: string) => {
   const user = await prisma.user.findUnique({
     where: { id },
@@ -12,26 +10,26 @@ export const getUser = async (id: string) => {
   return user
 }
 
-export const getUserWithAuthByUsername = async (username: string) => {
+export const getUserWithPasswordByUsername = async (username: string) => {
   return await prisma.user.findUnique({
     where: { username },
-    include: { auth: true },
+    include: { password: true },
   })
 }
 
-export const getUserWithAuthByEmail = async (email: string) => {
+export const getUserWithPasswordByEmail = async (email: string) => {
   return await prisma.user.findUnique({
     where: { email },
-    include: { auth: true },
+    include: { password: true },
   })
 }
 
-export const getUserWithAuthByLogin = async (login: string) => {
+export const getUserWithPasswordByLogin = async (login: string) => {
   return await prisma.user.findFirst({
     where: {
       OR: [{ username: login }, { email: login }],
     },
-    include: { auth: true },
+    include: { password: true },
   })
 }
 
@@ -91,7 +89,7 @@ export const createUser = async ({
       middleName,
       lastName,
       avatar,
-      auth: {
+      password: {
         create: {
           passwordHash,
         },
@@ -114,4 +112,63 @@ export const getAllUsers = async () => {
   const users = await prisma.user.findMany({})
 
   return users
+}
+
+interface IUpdateUser {
+  id: string
+  username?: string
+  email?: string
+  passwordHash?: string
+  role?: Role
+  firstName?: string
+  middleName?: string
+  lastName?: string
+  avatar?: string
+}
+
+export const updateUser = async ({
+  id,
+  username,
+  email,
+  role,
+  firstName,
+  middleName,
+  lastName,
+  avatar,
+}: IUpdateUser) => {
+  const user = await prisma.user.update({
+    where: { id },
+    data: {
+      username,
+      email,
+      role,
+      firstName,
+      middleName,
+      lastName,
+      avatar,
+    },
+  })
+
+  return user
+}
+
+interface IUpdateUserPassword {
+  userId: string
+  passwordHash: string
+}
+
+export const updateUserPassword = async ({
+  userId,
+  passwordHash,
+}: IUpdateUserPassword) => {
+  await prisma.password.update({
+    where: { userId },
+    data: {
+      passwordHash,
+    },
+  })
+
+  const user = await getUser(userId)
+
+  return user
 }

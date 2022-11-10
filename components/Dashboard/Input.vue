@@ -5,12 +5,18 @@
     error?: string | null
     icon?: string | null
     type?: 'text' | 'email' | 'password'
+    label?: string
+    id?: string
+    name?: string
   }
 
   const props = withDefaults(defineProps<Props>(), {
     error: null,
     type: 'text',
     icon: null,
+    label: undefined,
+    id: undefined,
+    name: undefined,
   })
 
   defineEmits(['update:modelValue'])
@@ -34,13 +40,18 @@
 
 <template>
   <div class="flex flex-col">
+    <label v-if="label" :for="id" class="mb-1 text-xs text-slate-600">{{
+      label
+    }}</label>
     <div
       class="h-10 px-4 flex items-center rounded border transition-500 focus-within:border-blue-400"
       :class="error ? 'border-red-400' : 'border-slate-200'"
     >
       <div v-if="icon" class="h-4 w-4 mr-2 text-slate-500" :class="icon" />
       <input
+        :id="id"
         :value="modelValue"
+        :name="name"
         :type="computedType"
         :placeholder="placeholder"
         class="w-full h-full text-lg text-sm outline-none"

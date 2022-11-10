@@ -1,4 +1,4 @@
-import { destroySession } from '@/server/modules/auth'
+import { destroySession } from '~~/server/services'
 
 export default defineEventHandler((event) => {
   destroySession(event)

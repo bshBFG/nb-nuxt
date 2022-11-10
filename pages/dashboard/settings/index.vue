@@ -6,5 +6,5 @@
 </script>
 
 <template>
-  <DashboardBody :title="$t('dashboard.title.settings')"></DashboardBody>
+  <DashboardBody title="Настройки"></DashboardBody>
 </template>

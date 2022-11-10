@@ -3,7 +3,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
   if (user === null || user === undefined) {
     if (to.fullPath.includes('dashboard')) {
-      return navigateTo('/dashboard/login')
+      return navigateTo('/auth/login')
     }
 
     return navigateTo('/')

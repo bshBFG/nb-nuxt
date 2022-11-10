@@ -4,7 +4,7 @@
   const user = await useUser()
   const logout = logoutUser
 
-  let userAvatar = null
+  let userAvatar: null | string = null
 
   if (user && user.avatar) {
     userAvatar = user.avatar

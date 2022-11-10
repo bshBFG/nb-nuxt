@@ -1,42 +1,55 @@
 import { compare } from 'bcrypt'
 
-import type { ILoginRequest } from '@/server/modules/auth'
-import { loginSchema, makeSession } from '@/server/modules/auth'
-import { getUserWithAuthByLogin } from '@/server/modules/user'
-import { postValidate } from '@/server/utils'
+import { getUserWithPasswordByLogin } from '~~/server/prisma/repositories'
+import { loginSchema } from '~~/server/schemes'
+import { makeSession } from '~~/server/services'
+import { ILoginRequest } from '~~/server/types'
+import { formValidateAsync } from '~~/server/utils'
 
 export default defineEventHandler(async (event) => {
   const body = await useBody<ILoginRequest>(event)
 
-  const errors = await postValidate(loginSchema, body)
+  const validBody = await formValidateAsync(loginSchema, body)
 
-  if (errors.hasErrors) {
+  if (!validBody.success) {
     return sendError(
       event,
       createError({
         statusCode: 401,
         statusMessage: 'Unauthorized',
-        data: errors,
+        data: validBody,
       })
     )
   }
 
-  const { login, password } = body
+  const { login, password } = validBody.data
 
-  const user = await getUserWithAuthByLogin(login)
+  const user = await getUserWithPasswordByLogin(login)
 
-  const isPasswordCorrect = await compare(password, user.auth.passwordHash)
+  if (!user || !user.password) {
+    return sendError(
+      event,
+      createError({
+        statusCode: 500,
+        statusMessage: 'Internal Server Error',
+      })
+    )
+  }
+
+  const isPasswordCorrect = await compare(password, user.password.passwordHash)
 
   if (!isPasswordCorrect) {
-    errors.hasErrors = true
-    errors.data.password = 'Invalid password'
-
     return sendError(
       event,
       createError({
         statusCode: 401,
         statusMessage: 'Invalid password',
-        data: errors,
+        data: {
+          success: false,
+          errors: {
+            password: 'Invalid password',
+          },
+        },
       })
     )
   }

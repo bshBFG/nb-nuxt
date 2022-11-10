@@ -1,14 +1,14 @@
 import { CompatibilityEvent } from 'h3'
 import { v4 as uuid } from 'uuid'
 import { CookieOptions } from '#app'
+import { User } from '@prisma/client'
 
 import {
   createSession,
   deleteSession,
   getUserBySessionToken,
   getAllUserSessions,
-} from '.'
-import type { User } from '@/server/modules/user'
+} from '~~/server/prisma/repositories'
 
 export const makeSession = async (user: User, event: CompatibilityEvent) => {
   const expires = new Date()

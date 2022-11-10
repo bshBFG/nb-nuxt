@@ -6,7 +6,5 @@
 </script>
 
 <template>
-  <DashboardBody
-    :title="$t('dashboard.title.settings-profile')"
-  ></DashboardBody>
+  <DashboardBody title="Профиль"></DashboardBody>
 </template>
